@@ -1,9 +1,12 @@
 pipeline {
     agent any
-    tools
-    {
-        maven 'MAVEN'
-    }
+        docker {
+           image "maven:3.6.0-jdk-13"
+        }
+//     tools
+//     {
+//         maven 'MAVEN'
+//     }
     stages {
         stage("build")
         {
