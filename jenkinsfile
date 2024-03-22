@@ -1,18 +1,19 @@
 pipeline {
-    agent  {
-        docker {
-            image 'maven:3.3.3'
-        }
-        }
-//     tools
-//     {
-//         maven 'MAVEN'
-//     }
+    agent any
+
+
+    tools
+    {
+        maven 'MAVEN'
+    }
     stages {
         stage("build")
         {
             steps
             {
+                    def dockerHome = tool 'docker'
+                    def mavenHome  = tool 'MAVEN'
+                    env.PATH = "${dockerHome}/bin:${mavenHome}/bin:${env.PATH}"
                 echo "Welcome to Jenkins Pipelines"
                 git branch: 'main', credentialsId: '9e83a6fb-9729-40e9-832b-da41c7d5c120', url: 'https://github.com/manivannanpannerselvam/MavenFile.git'
                 sh "mvn test"
