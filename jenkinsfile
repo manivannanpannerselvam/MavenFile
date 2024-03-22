@@ -1,9 +1,10 @@
 pipeline {
-    agent any
-    tools
-    {
-        maven 'MAVEN'
+    agent { docker { image 'maven:3:3:3'}
     }
+//     tools
+//     {
+//         maven 'MAVEN'
+//     }
     stages {
         stage("build")
         {
