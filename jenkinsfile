@@ -1,32 +1,54 @@
+
 pipeline {
-    agent any
-    tools {
-        maven 'MAVEN'
+agent { dockerfile true }
+
+   stages {
+
+    stage('Cloning Git') {
+	    steps{
+	      sh 'echo checking out source code'
+	    }
+     }
+
+    stage('SAST'){
+      steps{
+      	sh 'echo SAST stage'
+	   }
     }
-    stages {
-        stage("build") {
-            steps {
-                echo "Welcome to Jenkins Pipelines"
-                git branch: 'main', credentialsId: '9e83a6fb-9729-40e9-832b-da41c7d5c120', url: 'https://github.com/manivannanpannerselvam/MavenFile.git'
-                sh "mvn test"
-            }
-        }
-        stage("Tests") {
-            steps {
-                echo "Test the Application"
-            }
-        }
-        stage("Cucumber Reports") {
-            steps {
-                cucumber buildStatus: "UNSTABLE",
-                fileIncludePattern: "**/*.cucumber.json",
-                jsonReportDirectory: 'target'
-            }
+
+
+    stage('Build-and-Tag') {
+    /* This builds the actual image; synonymous to
+         * docker build on the command line */
+      steps{
+        sh 'echo Build and Tag'
+          }
+    }
+
+    stage('Post-to-dockerhub') {
+     steps {
+        sh 'echo post to dockerhub repo'
+     }
+    }
+
+    stage('SECURITY-IMAGE-SCANNER'){
+      steps {
+        sh 'echo scan image for security'
+     }
+    }
+
+    stage('Pull-image-server') {
+      steps {
+         sh 'echo pulling image ...'
+       }
+      }
+
+    stage('DAST') {
+      steps  {
+         sh 'echo dast scan for security'
         }
     }
-    post {
-        always {
-            emailext body: 'Jenkins File Practice', subject: 'Jenkins File Practice', to: 'manipinnai238@gmail.com'
-        }
-    }
+ }
+
+
 }
