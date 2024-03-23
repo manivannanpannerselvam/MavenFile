@@ -7,6 +7,8 @@ agent { dockerfile true }
     stage('Cloning Git') {
 	    steps{
 	      sh 'echo checking out source code'
+	       git branch: 'main', credentialsId: '9e83a6fb-9729-40e9-832b-da41c7d5c120', url: 'https://github.com/manivannanpannerselvam/MavenFile.git'
+           sh "mvn test"
 	    }
      }
 
