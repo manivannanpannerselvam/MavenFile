@@ -1,47 +1,32 @@
 pipeline {
-    agent {
-    tools
-    {
+    agent any
+    tools {
         maven 'MAVEN'
     }
-    }
     stages {
-        stage("build")
-        {
-            steps
-            {
-
+        stage("build") {
+            steps {
                 echo "Welcome to Jenkins Pipelines"
                 git branch: 'main', credentialsId: '9e83a6fb-9729-40e9-832b-da41c7d5c120', url: 'https://github.com/manivannanpannerselvam/MavenFile.git'
                 sh "mvn test"
             }
         }
-        stage("Tests")
-        {
-            steps
-            {
+        stage("Tests") {
+            steps {
                 echo "Test the Application"
-
             }
         }
-        stage("Cucumber Reports")
-        {
-            steps
-            {
+        stage("Cucumber Reports") {
+            steps {
                 cucumber buildStatus: "UNSTABLE",
-                fileIncludePattern: "**//*
-cucumber.json",
+                fileIncludePattern: "**/*.cucumber.json",
                 jsonReportDirectory: 'target'
             }
         }
-
     }
-    post
-    {
-        always
-        {
-           emailext body: 'Jenkins File Practise ', subject: 'Jenkins File Practise', to: 'manipinnai238@gmail.com'
+    post {
+        always {
+            emailext body: 'Jenkins File Practice', subject: 'Jenkins File Practice', to: 'manipinnai238@gmail.com'
         }
     }
-
 }
