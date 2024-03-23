@@ -52,14 +52,12 @@ cucumber.json",
 
 pipeline {
     agent {
-    docker
-     { image 'maven:3:3:3'
-     }
+
+    tools
+    {
+        maven 'MAVEN'
     }
-//     tools
-//     {
-//         maven 'MAVEN'
-//     }
+    }
     stages {
         stage("build")
         {
